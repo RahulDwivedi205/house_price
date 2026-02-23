@@ -407,7 +407,7 @@ if st.button("🔮  Predict Price"):
         margin=dict(l=0, r=20, t=10, b=10),
         height=420,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     # ── Input summary table ──
     st.markdown('<div class="section-title">📋 Your Input Summary</div>', unsafe_allow_html=True)
@@ -422,16 +422,16 @@ if st.button("🔮  Predict Price"):
             "Facing", "Owner Type", "Availability",
         ],
         "Value": [
-            state, city, locality, property_type, bhk,
-            f"{size_sqft:,}", year_built, furnished_status, floor_no,
-            total_floors, nearby_schools, nearby_hospitals,
-            transport, parking, security, ", ".join(amenities_selected),
-            facing, owner_type, availability,
+            str(state), str(city), str(locality), str(property_type), str(bhk),
+            f"{size_sqft:,}", str(year_built), str(furnished_status), str(floor_no),
+            str(total_floors), str(nearby_schools), str(nearby_hospitals),
+            str(transport), str(parking), str(security), ", ".join(amenities_selected),
+            str(facing), str(owner_type), str(availability),
         ],
     }
     st.dataframe(
         pd.DataFrame(summary_data),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -446,10 +446,10 @@ with st.expander("🔍 Explore the training dataset", expanded=False):
     tab1, tab2, tab3 = st.tabs(["📊 Statistics", "📋 Sample Data", "🗺️ Price by City"])
 
     with tab1:
-        st.dataframe(df.describe().T.style.format("{:,.2f}"), use_container_width=True)
+        st.dataframe(df.describe().T.style.format("{:,.2f}"), width="stretch")
 
     with tab2:
-        st.dataframe(df.head(100), use_container_width=True)
+        st.dataframe(df.head(100), width="stretch")
 
     with tab3:
         city_avg = df.groupby("City")["Price_in_Lakhs"].mean().sort_values(ascending=True).reset_index()
@@ -471,7 +471,7 @@ with st.expander("🔍 Explore the training dataset", expanded=False):
             margin=dict(l=0, r=20, t=10, b=10),
             height=600,
         )
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width="stretch")
 
 
 # ── Footer ──
