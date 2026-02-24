@@ -6,9 +6,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
 
-# ─────────────────────────────────────────────
-# Page Config
-# ─────────────────────────────────────────────
 st.set_page_config(
     page_title="India Housing Price Predictor",
     page_icon="🏠",
@@ -477,6 +474,6 @@ with st.expander("🔍 Explore the training dataset", expanded=False):
 # ── Footer ──
 st.markdown("""
 <div class="footer-text">
-    Built with ❤️ using Streamlit &amp; Scikit-learn · India Housing Price Predictor
+    Built by team bhaalu ❤️ using Streamlit &amp; Scikit-learn · India Housing Price Predictor
 </div>
 """, unsafe_allow_html=True)
