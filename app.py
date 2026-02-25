@@ -433,7 +433,7 @@ def build_features():
 
     return pd.DataFrame([row], columns=feature_names)
 st.markdown('<div class="hero-title">🏠 India Housing Price Predictor</div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-sub">Powered by a Random Forest model trained on 250,000+ real listings</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-sub">Powered by Ridge Regression with polynomial features trained on 250,000+ real listings</div>', unsafe_allow_html=True)
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
@@ -475,35 +475,6 @@ if st.button("🔮  Predict Price"):
         <div class="price-label" style="margin-top:6px;">≈ ₹ {prediction * 100_000:,.0f}</div>
     </div>
     """, unsafe_allow_html=True)
-
-    st.markdown('<div class="section-title">📊 Top Feature Importances</div>', unsafe_allow_html=True)
-    st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
-
-    importances = model.feature_importances_
-    feat_imp = pd.DataFrame({
-        "Feature": feature_names,
-        "Importance": importances,
-    }).sort_values("Importance", ascending=False).head(15)
-
-    fig = px.bar(
-        feat_imp,
-        x="Importance",
-        y="Feature",
-        orientation="h",
-        color="Importance",
-        color_continuous_scale=["#6366f1", "#8b5cf6", "#a78bfa", "#c084fc", "#60a5fa"],
-    )
-    fig.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-        font_color="rgba(255,255,255,0.85)",
-        font_family="Poppins",
-        yaxis=dict(autorange="reversed"),
-        coloraxis_showscale=False,
-        margin=dict(l=0, r=20, t=10, b=10),
-        height=420,
-    )
-    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown('<div class="section-title">📋 Your Input Summary</div>', unsafe_allow_html=True)
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
@@ -566,6 +537,6 @@ with st.expander("🔍 Explore the training dataset", expanded=False):
 
 st.markdown("""
 <div class="footer-text">
-    Built with ❤️ using Streamlit & Scikit-learn · India Housing Price Predictor
+    Built by Team Charlie with ❤️ India Housing Price Predictor
 </div>
 """, unsafe_allow_html=True)

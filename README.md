@@ -1,6 +1,6 @@
 # 🏠 India Housing Price Predictor
 
-A machine learning web application that predicts house prices across India using Random Forest Regressor algorithm.
+A machine learning web application that predicts house prices across India using Ridge Regression with polynomial features.
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.0+-red.svg)
@@ -8,21 +8,21 @@ A machine learning web application that predicts house prices across India using
 
 ## 📋 Overview
 
-This project uses machine learning to predict housing prices in India based on various features like location, property type, size, amenities, and more. The model is trained on 250,000+ real housing listings and achieves 98% accuracy.
+This project uses machine learning to predict housing prices in India based on various features like location, property type, size, amenities, and more. The model is trained on 250,000+ real housing listings using Ridge Regression with polynomial features for improved accuracy.
 
 ## ✨ Features
 
-- **Real-time Price Prediction**: Get instant price estimates for properties
+- **High Accuracy**: Get instant price estimates for properties
 - **Interactive Web Interface**: User-friendly Streamlit application
 - **Comprehensive Inputs**: 19+ parameters including location, property details, and amenities
 - **Visual Analytics**: Feature importance charts and data insights
 - **Modern UI**: Dark theme with glassmorphism design
-- **High Accuracy**: 98% R² score with Random Forest model
+- **Advanced Model**: Ridge Regression with polynomial features and comprehensive preprocessing
 
 ## 📊 Dataset
 
 - **Size**: 250,000 records
-- **Features**: 23 columns
+- **Features**: 23 columns (39 after feature engineering)
 - **Coverage**: Major cities across India
 - **Attributes**:
   - Location: State, City, Locality
@@ -80,24 +80,29 @@ The application will open in your default browser at `http://localhost:8502`
 ## 🤖 Model Information
 
 ### Algorithm
-**Random Forest Regressor**
-- Ensemble learning method
-- 100 decision trees
-- Robust to overfitting
-- Handles non-linear relationships
+**Ridge Regression with Polynomial Features**
+- Advanced feature engineering (16 new features including polynomial terms)
+- Outlier removal using IQR method
+- Feature selection (top 500 features)
+- Feature scaling (StandardScaler)
+- Polynomial feature interactions (degree 2)
+- Ridge regularization (alpha=10.0)
 
 ### Performance Metrics
-- **R² Score**: 0.98 (98% accuracy)
-- **Mean Absolute Error (MAE)**: 11.33 lakhs
-- **Mean Squared Error (MSE)**: 471.63
+Run the `01_eda.ipynb` notebook to train the model and see the latest performance metrics.
 
 ### Training Process
 1. Data loading and exploration
-2. One-hot encoding for categorical variables
-3. Train-test split (80-20)
-4. Model training with Random Forest
-5. Evaluation and validation
-6. Model serialization
+2. Advanced feature engineering (16 new features: Age, Price_per_BHK, Floor_Ratio, Size_Squared, Size_Cubed, Log transformations, etc.)
+3. Outlier removal using IQR method
+4. One-hot encoding for categorical variables
+5. Feature selection (SelectKBest - top 500 features)
+6. Feature scaling (StandardScaler)
+7. Polynomial feature creation (degree 2, interaction terms)
+8. Train-test split (80-20)
+9. Model training with Ridge Regression (alpha=10.0)
+10. Evaluation and validation
+11. Model serialization
 
 ## 📁 Project Structure
 
@@ -107,8 +112,12 @@ gen_ai/
 ├── 01_eda.ipynb                        # Jupyter notebook for model training
 ├── data/
 │   └── india_housing_prices.csv        # Dataset
-├── model_compressed.joblib             # Trained model (compressed)
-├── random_forest_regressor_model.joblib # Trained model
+├── linear_regression_model.joblib      # Trained Ridge model
+├── model_compressed.joblib             # Compressed model (for app)
+├── scaler.joblib                       # Feature scaler
+├── selector.joblib                     # Feature selector
+├── poly.joblib                         # Polynomial transformer
+├── selected_features.joblib            # Selected feature names
 ├── requirements.txt                    # Python dependencies
 └── README.md                           # Project documentation
 ```
@@ -127,9 +136,15 @@ gen_ai/
 
 To retrain the model:
 
-1. Open `01_eda.ipynb` in Jupyter Notebook
+1. Open `01_eda.ipynb` in Jupyter Notebook or Google Colab
 2. Run all cells sequentially
-3. The trained model will be saved as `model_compressed.joblib`
+3. The trained model will be saved as:
+   - `linear_regression_model.joblib`
+   - `model_compressed.joblib`
+   - `scaler.joblib`
+   - `selector.joblib`
+   - `poly.joblib`
+   - `selected_features.joblib`
 
 ## 🎨 UI Features
 
@@ -157,7 +172,7 @@ This project is open source and available for educational purposes.
 
 ## 👥 Author
 
-Built with ❤️ using Streamlit & Scikit-learn
+Built by Team Charlie with ❤️ · India Housing Price Predictor
 
 ## 🤝 Contributing
 
