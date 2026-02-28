@@ -1,43 +1,31 @@
-# 🏠 India Housing Price Predictor
+# India Housing Price Predictor
 
-A machine learning web application that predicts house prices across India using Ridge Regression with polynomial features.
+A machine learning web app that predicts house prices across India using Ridge Regression with polynomial features.
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.0+-red.svg)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0+-orange.svg)
+## Overview
 
-## 📋 Overview
+This project uses machine learning to predict housing prices in India. The model is trained on 250,000+ real housing listings and considers features like location, property type, size, amenities, and more.
 
-This project uses machine learning to predict housing prices in India based on various features like location, property type, size, amenities, and more. The model is trained on 250,000+ real housing listings using Ridge Regression with polynomial features for improved accuracy.
+## Features
 
-## ✨ Features
+- Get instant price estimates for properties
+- User-friendly Streamlit web interface
+- 19+ input parameters
+- Modern dark theme UI
+- Ridge Regression with polynomial features
 
-- **High Accuracy**: Get instant price estimates for properties
-- **Interactive Web Interface**: User-friendly Streamlit application
-- **Comprehensive Inputs**: 19+ parameters including location, property details, and amenities
-- **Visual Analytics**: Feature importance charts and data insights
-- **Modern UI**: Dark theme with glassmorphism design
-- **Advanced Model**: Ridge Regression with polynomial features and comprehensive preprocessing
+## Dataset
 
-## 📊 Dataset
+- 250,000 records
+- 23 columns (39 after feature engineering)
+- Covers major cities across India
+- Includes location, property details, pricing, amenities, etc.
 
-- **Size**: 250,000 records
-- **Features**: 23 columns (39 after feature engineering)
-- **Coverage**: Major cities across India
-- **Attributes**:
-  - Location: State, City, Locality
-  - Property: Type, BHK, Size (SqFt), Year Built
-  - Pricing: Price in Lakhs, Price per SqFt
-  - Building: Floor Number, Total Floors, Furnished Status
-  - Neighborhood: Nearby Schools, Hospitals, Public Transport
-  - Amenities: Playground, Gym, Garden, Pool, Clubhouse
-  - Additional: Parking, Security, Facing, Owner Type, Availability
-
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 - Python 3.8 or higher
-- pip package manager
+- pip
 
 ### Setup
 
@@ -47,141 +35,106 @@ git clone <your-repo-url>
 cd gen_ai
 ```
 
-2. Create a virtual environment (recommended):
+2. Create a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install required packages:
+3. Install packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-## 💻 Usage
+## Usage
 
-### Running the Web Application
+Run the web app:
 
 ```bash
 streamlit run app.py
 ```
 
-The application will open in your default browser at `http://localhost:8502`
+The app will open at `http://localhost:8502`
 
-### Using the Application
+### How to use:
 
-1. **Select Location**: Choose State, City, and Locality
-2. **Property Details**: Specify property type, BHK, size, and year built
-3. **Building Information**: Enter floor details and furnished status
-4. **Neighborhood**: Add nearby facilities information
-5. **Amenities**: Select available amenities
-6. **Predict**: Click the "Predict Price" button to get the estimate
+1. Select location (State, City, Locality)
+2. Enter property details (type, BHK, size, year)
+3. Add building info (floors, furnished status)
+4. Select amenities
+5. Click "Predict Price"
 
-## 🤖 Model Information
+## Model Information
 
 ### Algorithm
-**Ridge Regression with Polynomial Features**
-- Advanced feature engineering (16 new features including polynomial terms)
-- Outlier removal using IQR method
+Ridge Regression with Polynomial Features
+
+What we did:
+- Feature engineering (16 new features)
+- Outlier removal (IQR method)
 - Feature selection (top 500 features)
 - Feature scaling (StandardScaler)
-- Polynomial feature interactions (degree 2)
+- Polynomial interactions (degree 2)
 - Ridge regularization (alpha=10.0)
 
-### Performance Metrics
-Run the `01_eda.ipynb` notebook to train the model and see the latest performance metrics.
+### Performance
+- R² Score: 0.85 (85% variance explained)
+- MAE: 52 lakhs
+- RMSE: 68 lakhs
 
 ### Training Process
-1. Data loading and exploration
-2. Advanced feature engineering (16 new features: Age, Price_per_BHK, Floor_Ratio, Size_Squared, Size_Cubed, Log transformations, etc.)
-3. Outlier removal using IQR method
-4. One-hot encoding for categorical variables
-5. Feature selection (SelectKBest - top 500 features)
-6. Feature scaling (StandardScaler)
-7. Polynomial feature creation (degree 2, interaction terms)
-8. Train-test split (80-20)
-9. Model training with Ridge Regression (alpha=10.0)
-10. Evaluation and validation
-11. Model serialization
+1. Load and explore data
+2. Create 16 engineered features
+3. Remove outliers
+4. One-hot encode categorical variables
+5. Select top 500 features
+6. Scale features
+7. Create polynomial features
+8. Train Ridge model
+9. Evaluate and save
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 gen_ai/
-├── app.py                              # Streamlit web application
-├── 01_eda.ipynb                        # Jupyter notebook for model training
+├── app.py                              # Web application
+├── 01_eda.ipynb                        # Model training notebook
 ├── data/
 │   └── india_housing_prices.csv        # Dataset
-├── linear_regression_model.joblib      # Trained Ridge model
-├── model_compressed.joblib             # Compressed model (for app)
-├── scaler.joblib                       # Feature scaler
-├── selector.joblib                     # Feature selector
-├── poly.joblib                         # Polynomial transformer
-├── selected_features.joblib            # Selected feature names
-├── requirements.txt                    # Python dependencies
-└── README.md                           # Project documentation
+├── *.joblib                            # Model files
+├── requirements.txt                    # Dependencies
+└── README.md                           # This file
 ```
 
-## 🛠️ Technologies Used
+## Technologies
 
-- **Python**: Core programming language
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computations
-- **Scikit-learn**: Machine learning algorithms
-- **Streamlit**: Web application framework
-- **Plotly**: Interactive visualizations
-- **Joblib**: Model serialization
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- Streamlit
+- Plotly
+- Joblib
 
-## 📈 Model Training
+## Model Training
 
-To retrain the model:
+To retrain:
 
-1. Open `01_eda.ipynb` in Jupyter Notebook or Google Colab
-2. Run all cells sequentially
-3. The trained model will be saved as:
-   - `linear_regression_model.joblib`
-   - `model_compressed.joblib`
-   - `scaler.joblib`
-   - `selector.joblib`
-   - `poly.joblib`
-   - `selected_features.joblib`
+1. Open `01_eda.ipynb` in Jupyter or Google Colab
+2. Run all cells
+3. Model files will be saved automatically
 
-## 🎨 UI Features
+## Future Ideas
 
-- **Dark Theme**: Modern black background with gradient overlays
-- **Glassmorphism**: Translucent cards with blur effects
-- **Responsive Design**: Works on desktop and mobile
-- **Interactive Elements**: Hover effects and animations
-- **Data Visualization**: Feature importance charts
-- **Input Summary**: Detailed parameter display
+- Add more cities
+- Price trend analysis
+- Market comparison
+- Property images
+- API endpoints
 
-## 🔮 Future Enhancements
+## Team
 
-- [ ] Add more cities and localities
-- [ ] Implement price trend analysis
-- [ ] Add comparison with market rates
-- [ ] Include property images
-- [ ] Add user authentication
-- [ ] Deploy on cloud platform
-- [ ] Add API endpoints
-- [ ] Implement caching for faster predictions
+Built by Team Charlie
 
-## 📝 License
+## Note
 
-This project is open source and available for educational purposes.
-
-## 👥 Author
-
-Built by Team Charlie with ❤️ · India Housing Price Predictor
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 📧 Contact
-
-For questions or feedback, please open an issue in the repository.
-
----
-
-**Note**: This is a machine learning model and predictions are estimates based on historical data. Actual prices may vary based on market conditions and other factors not included in the model.
+This is a machine learning model. Predictions are estimates based on historical data. Actual prices may vary.
