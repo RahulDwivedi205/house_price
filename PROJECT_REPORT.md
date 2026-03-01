@@ -298,17 +298,20 @@ We split the data 80-20:
 ### 4.3 Model Architecture and Training
 
 #### 4.3.1 Model Configuration
+
+We used Ridge Regression with alpha=10.0:
+
 ```python
 model = Ridge(alpha=10.0)
 ```
 
-**Algorithm Details:**
-- **Method:** Ridge Regression (L2 regularization)
-- **Objective:** Minimize sum of squared residuals + L2 penalty
-- **Formula:** y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ + α||β||²
-- **Alpha:** 10.0 (regularization strength)
+Ridge Regression uses L2 regularization to prevent overfitting. The formula is:
 
-**Advantages:**
+y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ + α||β||²
+
+Where alpha=10.0 controls the regularization strength.
+
+Advantages:
 - Handles multicollinearity
 - Prevents overfitting
 - Stable with many features
@@ -316,27 +319,26 @@ model = Ridge(alpha=10.0)
 - Deterministic results
 
 #### 4.3.2 Complete Training Pipeline
+
 ```python
-# Complete training pipeline
 model = Ridge(alpha=10.0)
 model.fit(X_train, y_train)
 ```
 
-**Training Details:**
-- **Duration:** 1-2 minutes on standard CPU
-- **Memory Usage:** ~1GB RAM (polynomial features create large feature space)
-- **Method:** Closed-form solution with L2 regularization
-- **Convergence:** Single-step analytical solution
-- **Final Feature Count:** 125,000+ polynomial features from 500 selected features
+Training details:
+- Duration: 1-2 minutes on standard CPU
+- Memory usage: About 1GB RAM
+- Method: Closed-form solution with L2 regularization
+- Final feature count: 125,000+ polynomial features from 500 selected features
 
-**Training Steps Summary:**
+Training steps:
 1. Load 250,000 housing records
-2. Engineer 16 new features (polynomial, logarithmic, interaction terms)
+2. Engineer 16 new features
 3. Remove outliers using IQR method
-4. One-hot encode categorical variables (→ 923 features)
+4. One-hot encode categorical variables (923 features)
 5. Select top 500 features using SelectKBest
-6. Standardize features (mean=0, std=1)
-7. Create polynomial interaction features (degree=2)
+6. Standardize features
+7. Create polynomial interaction features
 8. Split data 80-20 for training and testing
 9. Train Ridge model with alpha=10.0
 10. Evaluate on test set
@@ -344,12 +346,14 @@ model.fit(X_train, y_train)
 
 ### 4.4 Prediction Pipeline
 
+The prediction process follows these steps:
+
 ```
 Input → Feature Engineering → Outlier Handling → One-Hot Encoding → 
 Feature Selection → Feature Scaling → Polynomial Features → Ridge Model → Output
 ```
 
-**Steps:**
+Steps:
 1. User inputs property details
 2. Feature engineering applied (16 new features)
 3. Outliers capped if needed
@@ -562,52 +566,47 @@ The L2 penalty kept our 125,000+ polynomial features under control.
 
 ### 6.3 Model Selection Rationale
 
-**Why Ridge Regression with Polynomial Features?**
+After researching different approaches, we chose Ridge Regression with Polynomial Features.
 
-Ridge Regression with polynomial features was selected as the final model based on the following considerations:
+Advantages:
+1. Strong predictive performance (R² = 0.85)
+2. Interpretable - we can explain how features affect prices
+3. L2 regularization prevents overfitting
+4. Fast training (90 seconds) and prediction (under 0.5 seconds)
+5. Handles multicollinearity well
+6. Transparent for stakeholders
+7. Suitable for regulatory compliance
 
-**Advantages:**
-1. **Strong Predictive Performance**: Achieves R² = 0.85, explaining 85% of price variance
-2. **Interpretability**: Linear coefficients enable clear feature importance analysis
-3. **Regularization**: L2 penalty prevents overfitting with 125,000+ features
-4. **Computational Efficiency**: Fast training (~90 seconds) and prediction (<0.5 seconds)
-5. **Stability**: Handles multicollinearity from polynomial features effectively
-6. **Transparency**: Stakeholders can understand how features affect predictions
-7. **Regulatory Compliance**: Transparent model suitable for auditing
-
-**Trade-offs Considered:**
-- Prioritized interpretability and transparency over marginal accuracy gains
-- Balanced model complexity with practical deployment requirements
+Trade-offs:
+- We prioritized interpretability over marginal accuracy gains
+- Balanced model complexity with deployment requirements
 - Ensured stakeholder trust through explainable predictions
 
-**Business Context:**
-Real estate pricing applications require models that stakeholders can understand and trust. While more complex ensemble methods might achieve slightly higher accuracy, the interpretability and transparency of Ridge Regression make it more suitable for this domain.
+Real estate pricing needs models that people can understand and trust. While more complex models might achieve slightly higher accuracy, Ridge Regression is more suitable for this domain.
 
 ### 6.4 Deployment Optimizations
 
-**1. Model Compression**
+1. Model Compression
+
 ```python
 joblib.dump(model, 'model_compressed.joblib', compress=3)
 ```
-- Reduces file size by approximately 60%
-- Faster loading in production environment
-- Lower storage and bandwidth costs
 
-**2. Caching Strategy**
+This reduces file size by about 60%, making it faster to load and cheaper to store.
+
+2. Caching Strategy
+
 ```python
 @st.cache_resource
 def load_model():
     return joblib.load('model_compressed.joblib')
 ```
-- Model loaded once at application startup
-- Reused for all subsequent predictions
-- Significantly improves response times
 
-**3. Preprocessing Pipeline**
-- All transformers saved (scaler, selector, poly)
-- Ensures consistent preprocessing in production
-- Eliminates training-serving skew
-- Reproducible predictions
+The model loads once at startup and is reused for all predictions, improving response times.
+
+3. Preprocessing Pipeline
+
+We saved all transformers (scaler, selector, poly) to ensure consistent preprocessing in production and avoid training-serving differences.
 
 ### 6.5 What Didn't Work
 
@@ -627,33 +626,33 @@ def load_model():
 
 ### 6.5 What Didn't Work
 
-**Attempted but Not Implemented:**
+We tried several things that didn't make it into the final model:
 
-1. **Degree-3 Polynomials**
-   - Created 500K+ features
-   - Training took >30 minutes
-   - Marginal accuracy gain (~2%)
-   - Decision: Not worth the complexity
+1. Degree-3 Polynomials
+   - Created over 500,000 features
+   - Training took more than 30 minutes
+   - Only improved accuracy by about 2%
+   - Not worth the added complexity
 
-2. **More Feature Engineering**
+2. More Feature Engineering
    - Tried 30+ additional features
    - Many were redundant
-   - SelectKBest filtered most out
-   - Decision: Current 16 features sufficient
+   - SelectKBest filtered most of them out
+   - Current 16 features are sufficient
 
-3. **Ensemble Methods**
-   - Tested Ridge + Random Forest ensemble
+3. Ensemble Methods
+   - Tested combining Ridge with Random Forest
    - Accuracy improved slightly
    - Lost interpretability
-   - Decision: Single Ridge model preferred
+   - Decided to keep single Ridge model
 
 ### 6.6 Future Optimization Opportunities
 
-1. **Hyperparameter Tuning**: Grid search for optimal alpha value
-2. **Feature Engineering**: Location-specific features (crime rate, school quality ratings)
-3. **Time Series Integration**: Incorporate market trends and seasonality
-4. **Ensemble Stacking**: Combine Ridge with complementary models
-5. **Real-time Learning**: Incremental updates with new listings
+1. Hyperparameter Tuning: Use grid search to find the best alpha value
+2. Feature Engineering: Add location-specific features like crime rates and school quality
+3. Time Series Integration: Include market trends and seasonal patterns
+4. Ensemble Stacking: Combine Ridge with other complementary models
+5. Real-time Learning: Update the model incrementally with new listings
 
 ---
 
