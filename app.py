@@ -475,6 +475,24 @@ if st.button("🔮  Predict Price"):
     with st.spinner("Crunching numbers …"):
         input_df = build_features()
         prediction = model.predict(input_df)[0]
+    st.session_state.prediction = prediction
+    st.session_state.property_context = f"""
+    Property Details:
+    - Location: {locality}, {city}, {state}
+    - Type: {property_type}, {bhk} BHK
+    - Size: {size_sqft} sq.ft, Built in {year_built}
+    - Floor: {floor_no} of {total_floors}
+    - Furnished: {furnished_status}
+    - Nearby Schools: {nearby_schools}, Hospitals: {nearby_hospitals}
+    - Transport: {transport}, Parking: {parking}, Security: {security}
+    - Amenities: {', '.join(amenities_selected) if amenities_selected else 'None'}
+    - Facing: {facing}, Owner: {owner_type}, Status: {availability}
+    - Predicted Price: ₹{prediction:,.2f} Lakhs
+    """
+    st.session_state.chat_history = []
+
+if "prediction" in st.session_state:
+    prediction = st.session_state.prediction
 
     st.markdown(f"""
     <div class="price-result">
@@ -503,33 +521,15 @@ if st.button("🔮  Predict Price"):
             str(facing), str(owner_type), str(availability),
         ],
     }
-    st.dataframe(
-        pd.DataFrame(summary_data),
-        use_container_width=True,
-        hide_index=True,
-    )
+    st.dataframe(pd.DataFrame(summary_data), use_container_width=True, hide_index=True)
 
     st.markdown('<div class="section-title">🤖 AI Property Advisor</div>', unsafe_allow_html=True)
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
-    property_context = f"""
-    Property Details:
-    - Location: {locality}, {city}, {state}
-    - Type: {property_type}, {bhk} BHK
-    - Size: {size_sqft} sq.ft, Built in {year_built}
-    - Floor: {floor_no} of {total_floors}
-    - Furnished: {furnished_status}
-    - Nearby Schools: {nearby_schools}, Hospitals: {nearby_hospitals}
-    - Transport: {transport}, Parking: {parking}, Security: {security}
-    - Amenities: {', '.join(amenities_selected) if amenities_selected else 'None'}
-    - Facing: {facing}, Owner: {owner_type}, Status: {availability}
-    - Predicted Price: ₹{prediction:,.2f} Lakhs
-    """
-
     st.markdown("""
     <div class="glass-card">
         <p style="color: rgba(255,255,255,0.7); margin:0; font-size: 0.95rem;">
-        Ask our AI advisor anything about this property — investment potential, 
+        Ask our AI advisor anything about this property — investment potential,
         price justification, neighbourhood insights, or buying tips.
         </p>
     </div>
@@ -537,12 +537,6 @@ if st.button("🔮  Predict Price"):
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
-    if "last_context" not in st.session_state:
-        st.session_state.last_context = ""
-
-    if st.session_state.last_context != property_context:
-        st.session_state.chat_history = []
-        st.session_state.last_context = property_context
 
     for msg in st.session_state.chat_history:
         role_color = "#a78bfa" if msg["role"] == "user" else "#34d399"
@@ -570,14 +564,13 @@ if st.button("🔮  Predict Price"):
             with st.spinner("AI is thinking..."):
                 try:
                     client = Groq(api_key=GROQ_API_KEY)
-
-                    system_prompt = f"""You are an expert Indian real estate advisor. 
+                    system_prompt = f"""You are an expert Indian real estate advisor.
                     A user has a property with these details and predicted price:
-                    {property_context}
+                    {st.session_state.property_context}
                     Answer their question in 3-4 sentences. Be specific, practical, and helpful.
                     Use Indian real estate context. Keep it conversational and clear."""
 
-                    chat = client.chat.completions.create(
+                    chat_response = client.chat.completions.create(
                         model="llama-3.1-8b-instant",
                         messages=[
                             {"role": "system", "content": system_prompt},
@@ -585,8 +578,7 @@ if st.button("🔮  Predict Price"):
                         ],
                         max_tokens=300
                     )
-                    ai_reply = chat.choices[0].message.content
-
+                    ai_reply = chat_response.choices[0].message.content
                     st.session_state.chat_history.append({"role": "user", "content": user_question})
                     st.session_state.chat_history.append({"role": "assistant", "content": ai_reply})
                     st.rerun()
