@@ -7,6 +7,9 @@ import plotly.graph_objects as go
 from pathlib import Path
 import google.generativeai as genai
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 st.set_page_config(
     page_title="India Housing Price Predictor",

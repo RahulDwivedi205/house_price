@@ -1,2 +1,5 @@
 venv
 random_forest_regressor_model.joblib
+.env
+__pycache__
+*.pyc
