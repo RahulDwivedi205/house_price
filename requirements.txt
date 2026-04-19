@@ -4,5 +4,5 @@ numpy
 scikit-learn
 joblib
 plotly
-google-generativeai
+google-genai
 python-dotenv

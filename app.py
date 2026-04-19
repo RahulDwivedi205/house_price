@@ -5,7 +5,7 @@ import joblib
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
-import google.generativeai as genai
+from google import genai
 import os
 from dotenv import load_dotenv
 
@@ -568,20 +568,17 @@ if st.button("🔮  Predict Price"):
         else:
             with st.spinner("AI is thinking..."):
                 try:
-                    genai.configure(api_key=GEMINI_API_KEY)
-                    gemini_model = genai.GenerativeModel("gemini-1.5-flash")
-
                     system_prompt = f"""You are an expert Indian real estate advisor. 
                     A user has a property with these details and predicted price:
                     {property_context}
-                    
                     Answer their question in 3-4 sentences. Be specific, practical, and helpful.
                     Use Indian real estate context. Keep it conversational and clear."""
 
-                    response = gemini_model.generate_content(
-                        f"{system_prompt}\n\nUser question: {user_question}"
+                    client = genai.Client(api_key=GEMINI_API_KEY)
+                    response = client.models.generate_content(
+                        model="gemini-2.0-flash-lite",
+                        contents=f"{system_prompt}\n\nUser question: {user_question}"
                     )
-
                     ai_reply = response.text
 
                     st.session_state.chat_history.append({"role": "user", "content": user_question})
