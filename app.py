@@ -364,21 +364,21 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("### 🏢 Building Details")
+    st.markdown("### Building Details")
     furnished_status = st.selectbox("Furnished Status", ["Furnished", "Semi-furnished", "Unfurnished"])
     floor_no = st.number_input("Floor Number", min_value=0, max_value=50, value=5)
     total_floors = st.number_input("Total Floors", min_value=1, max_value=50, value=20)
 
     st.markdown("---")
 
-    st.markdown("### 🏫 Neighbourhood")
+    st.markdown("### Neighbourhood")
     nearby_schools = st.slider("Nearby Schools", 1, 10, 5)
     nearby_hospitals = st.slider("Nearby Hospitals", 1, 10, 3)
     transport = st.selectbox("Public Transport", ["High", "Medium", "Low"])
 
     st.markdown("---")
 
-    st.markdown("### ✨ Amenities & Extras")
+    st.markdown("### Amenities & Extras")
     parking = st.selectbox("Parking Space", ["Yes", "No"])
     security = st.selectbox("Security", ["Yes", "No"])
     amenities_selected = st.multiselect("Amenities", ALL_AMENITIES, default=ALL_AMENITIES)
