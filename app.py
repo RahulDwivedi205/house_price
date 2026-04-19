@@ -5,6 +5,8 @@ import joblib
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
+import google.generativeai as genai
+import os
 
 st.set_page_config(
     page_title="India Housing Price Predictor",
@@ -319,6 +321,8 @@ div[data-baseweb="input"] > div:hover {
 
 BASE = Path(__file__).parent
 
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+
 @st.cache_data(show_spinner=False)
 def load_data():
     return pd.read_csv(BASE / "data" / "india_housing_prices.csv")
@@ -500,6 +504,94 @@ if st.button("🔮  Predict Price"):
         use_container_width=True,
         hide_index=True,
     )
+
+    st.markdown('<div class="section-title">🤖 AI Property Advisor</div>', unsafe_allow_html=True)
+    st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
+
+    property_context = f"""
+    Property Details:
+    - Location: {locality}, {city}, {state}
+    - Type: {property_type}, {bhk} BHK
+    - Size: {size_sqft} sq.ft, Built in {year_built}
+    - Floor: {floor_no} of {total_floors}
+    - Furnished: {furnished_status}
+    - Nearby Schools: {nearby_schools}, Hospitals: {nearby_hospitals}
+    - Transport: {transport}, Parking: {parking}, Security: {security}
+    - Amenities: {', '.join(amenities_selected) if amenities_selected else 'None'}
+    - Facing: {facing}, Owner: {owner_type}, Status: {availability}
+    - Predicted Price: ₹{prediction:,.2f} Lakhs
+    """
+
+    st.markdown("""
+    <div class="glass-card">
+        <p style="color: rgba(255,255,255,0.7); margin:0; font-size: 0.95rem;">
+        Ask our AI advisor anything about this property — investment potential, 
+        price justification, neighbourhood insights, or buying tips.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+    if "last_context" not in st.session_state:
+        st.session_state.last_context = ""
+
+    if st.session_state.last_context != property_context:
+        st.session_state.chat_history = []
+        st.session_state.last_context = property_context
+
+    for msg in st.session_state.chat_history:
+        role_color = "#a78bfa" if msg["role"] == "user" else "#34d399"
+        role_label = "You" if msg["role"] == "user" else "AI Advisor"
+        st.markdown(f"""
+        <div style="background: rgba(255,255,255,0.04); border-left: 3px solid {role_color};
+        padding: 12px 16px; border-radius: 8px; margin: 8px 0;">
+            <span style="color: {role_color}; font-weight: 600; font-size: 0.85rem;">{role_label}</span>
+            <p style="color: rgba(255,255,255,0.85); margin: 6px 0 0 0; font-size: 0.95rem;">{msg["content"]}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    user_question = st.text_input(
+        "Ask about this property...",
+        placeholder="e.g. Is this a good investment? Why is it priced this way?",
+        key="ai_input"
+    )
+
+    if st.button("Ask AI Advisor", key="ask_ai"):
+        if not GEMINI_API_KEY:
+            st.warning("Please set your GEMINI_API_KEY in the environment variables to use the AI Advisor.")
+        elif not user_question.strip():
+            st.warning("Please type a question first.")
+        else:
+            with st.spinner("AI is thinking..."):
+                try:
+                    genai.configure(api_key=GEMINI_API_KEY)
+                    gemini_model = genai.GenerativeModel("gemini-1.5-flash")
+
+                    system_prompt = f"""You are an expert Indian real estate advisor. 
+                    A user has a property with these details and predicted price:
+                    {property_context}
+                    
+                    Answer their question in 3-4 sentences. Be specific, practical, and helpful.
+                    Use Indian real estate context. Keep it conversational and clear."""
+
+                    response = gemini_model.generate_content(
+                        f"{system_prompt}\n\nUser question: {user_question}"
+                    )
+
+                    ai_reply = response.text
+
+                    st.session_state.chat_history.append({"role": "user", "content": user_question})
+                    st.session_state.chat_history.append({"role": "assistant", "content": ai_reply})
+                    st.rerun()
+
+                except Exception as e:
+                    st.error(f"AI Advisor error: {str(e)}")
+
+    if st.session_state.chat_history:
+        if st.button("Clear Chat", key="clear_chat"):
+            st.session_state.chat_history = []
+            st.rerun()
 st.markdown("")
 st.markdown('<div class="section-title">📈 Dataset Overview</div>', unsafe_allow_html=True)
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)

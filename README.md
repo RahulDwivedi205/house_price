@@ -9,6 +9,8 @@ This project uses machine learning to predict housing prices in India. The model
 ## Features
 
 - Get instant price estimates for properties
+- AI Property Advisor powered by Google Gemini (GenAI)
+- Ask questions about the predicted price, investment potential, and market insights
 - User-friendly Streamlit web interface
 - 19+ input parameters
 - Modern dark theme UI
@@ -26,6 +28,7 @@ This project uses machine learning to predict housing prices in India. The model
 ### Prerequisites
 - Python 3.8 or higher
 - pip
+- Google Gemini API key (free at [aistudio.google.com](https://aistudio.google.com))
 
 ### Setup
 
@@ -44,6 +47,12 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 3. Install packages:
 ```bash
 pip install -r requirements.txt
+```
+
+4. Set your Gemini API key:
+```bash
+export GEMINI_API_KEY="your_api_key_here"   # Mac/Linux
+set GEMINI_API_KEY="your_api_key_here"      # Windows
 ```
 
 ## Usage
