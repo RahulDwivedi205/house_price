@@ -344,10 +344,10 @@ city_locality_map = df.groupby("City")["Locality"].apply(lambda x: sorted(x.uniq
 
 ALL_AMENITIES = ["Playground", "Gym", "Garden", "Pool", "Clubhouse"]
 with st.sidebar:
-    st.markdown("## 🏠 Property Details")
+    st.markdown("## Property Details")
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
-    st.markdown("### 📍 Location")
+    st.markdown("### Location")
     state = st.selectbox("State", sorted(state_city_map.keys()), index=15)
     cities = state_city_map.get(state, [])
     city = st.selectbox("City", cities)
@@ -471,7 +471,7 @@ with col4:
     </div>""", unsafe_allow_html=True)
 
 st.markdown("")
-if st.button("🔮  Predict Price"):
+if st.button("Predict Price"):
     with st.spinner("Crunching numbers …"):
         input_df = build_features()
         prediction = model.predict(input_df)[0]
@@ -594,7 +594,7 @@ st.markdown("")
 st.markdown('<div class="section-title">📈 Dataset Overview</div>', unsafe_allow_html=True)
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
-with st.expander("🔍 Explore the training dataset", expanded=False):
+with st.expander("Explore the training dataset", expanded=False):
     tab1, tab2, tab3 = st.tabs(["📊 Statistics", "📋 Sample Data", "🗺️ Price by City"])
 
     with tab1:
