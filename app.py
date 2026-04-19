@@ -324,7 +324,8 @@ div[data-baseweb="input"] > div:hover {
 
 BASE = Path(__file__).parent
 
-GEMINI_API_KEY = os.environ.get("GROQ_API_KEY", "")
+load_dotenv(BASE / ".env")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 @st.cache_data(show_spinner=False)
 def load_data():
@@ -561,14 +562,14 @@ if st.button("🔮  Predict Price"):
     )
 
     if st.button("Ask AI Advisor", key="ask_ai"):
-        if not GEMINI_API_KEY:
-            st.warning("Please set your GROQ_API_KEY in the environment variables to use the AI Advisor.")
+        if not GROQ_API_KEY:
+            st.warning("Please set your GROQ_API_KEY in the .env file.")
         elif not user_question.strip():
             st.warning("Please type a question first.")
         else:
             with st.spinner("AI is thinking..."):
                 try:
-                    client = Groq(api_key=GEMINI_API_KEY)
+                    client = Groq(api_key=GROQ_API_KEY)
 
                     system_prompt = f"""You are an expert Indian real estate advisor. 
                     A user has a property with these details and predicted price:
