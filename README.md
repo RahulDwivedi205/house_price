@@ -124,4 +124,4 @@ Built by **Team Charlie**
 
 ## Note
 
-This is a machine learning model. Predictions are estimates based on historical data. Actual prices may vary based on current market conditions.
+This is a machine learning model. Predictions are estimates based on historical data. Actual prices may vary based on current market conditions..
