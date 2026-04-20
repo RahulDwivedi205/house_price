@@ -356,7 +356,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("### 🏗️ Property Type")
+    st.markdown("### Property Type")
     property_type = st.selectbox("Type", ["Apartment", "Independent House", "Villa"])
     bhk = st.slider("BHK", 1, 5, 2)
     size_sqft = st.slider("Size (SqFt)", 500, 5000, 1500, step=50)
@@ -440,7 +440,7 @@ def build_features():
                     break
 
     return pd.DataFrame([row], columns=feature_names)
-st.markdown('<div class="hero-title">🏠 India Housing Price Predictor</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-title">India Housing Price Predictor</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">Powered by Ridge Regression with polynomial features trained on 250,000+ real listings</div>', unsafe_allow_html=True)
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
@@ -523,7 +523,7 @@ if "prediction" in st.session_state:
     }
     st.dataframe(pd.DataFrame(summary_data), use_container_width=True, hide_index=True)
 
-    st.markdown('<div class="section-title">🤖 AI Property Advisor</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">AI Property Advisor</div>', unsafe_allow_html=True)
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
     st.markdown("""
@@ -595,7 +595,7 @@ st.markdown('<div class="section-title">📈 Dataset Overview</div>', unsafe_all
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
 with st.expander("Explore the training dataset", expanded=False):
-    tab1, tab2, tab3 = st.tabs(["📊 Statistics", "📋 Sample Data", "🗺️ Price by City"])
+    tab1, tab2, tab3 = st.tabs(["Statistics", "Sample Data", "Price by City"])
 
     with tab1:
         st.dataframe(df.describe().T.style.format("{:,.2f}"), use_container_width=True)
