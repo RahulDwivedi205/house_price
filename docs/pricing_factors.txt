@@ -1,0 +1,26 @@
+### Factors Influencing House Prices in India
+
+Several factors play a critical role in determining the market value of a residential property in India:
+
+1. Location and Connectivity:
+   - Proximity to business hubs and IT parks.
+   - Quality of road infrastructure and public transport (Metro, Bus).
+   - Neighborhood safety and reputation.
+
+2. Infrastructure and Amenities:
+   - Basic: 24/7 water supply and power backup.
+   - Lifestyle: Swimming pools, clubhouses, and piped gas.
+   - Proximity to essential services like hospitals and schools.
+
+3. Property Age and Quality:
+   - New constructions generally command a premium.
+   - Well-maintained older properties in prime locations also hold high value.
+   - Construction quality and brand reputation of the builder.
+
+4. Legal and Regulatory Factors:
+   - RERA compliance is mandatory for buyer trust.
+   - Clear land titles and occupancy certificates (OC).
+
+5. Economic Factors:
+   - Interest rates on home loans.
+   - Local economic growth and employment opportunities.

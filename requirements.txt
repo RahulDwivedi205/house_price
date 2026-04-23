@@ -6,3 +6,13 @@ joblib
 plotly
 groq
 python-dotenv
+faiss-cpu
+langchain
+langchain-community
+sentence-transformers
+pypdf
+langchain-openai
+langchain-groq
+fastapi
+uvicorn
+python-multipart
