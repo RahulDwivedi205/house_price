@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 st.set_page_config(
-    page_title="India Housing Price Predictor",
+    page_title="Estate Insight | India",
     page_icon="🏠",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -20,303 +20,177 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap');
 
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .stApp {
-    background: #000000;
+    background-color: #0f1115;
     background-image: 
-        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+        radial-gradient(circle at 20% 30%, rgba(197, 163, 108, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
 }
 
+/* Sidebar Styling */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%) !important;
-    border-right: 1px solid rgba(139, 92, 246, 0.2);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    background-color: #16191f !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-section[data-testid="stSidebar"] .stMarkdown h2,
+section[data-testid="stSidebar"] .stMarkdown h2, 
 section[data-testid="stSidebar"] .stMarkdown h3 {
-    color: #a78bfa;
-    font-weight: 700;
-    text-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
-}
-
-section[data-testid="stSidebar"] label {
-    color: rgba(255, 255, 255, 0.85) !important;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.stSelectbox, .stSlider, .stNumberInput, .stMultiSelect {
-    color: #fff;
-}
-
-div[data-baseweb="select"] > div,
-div[data-baseweb="input"] > div {
-    background-color: rgba(20, 20, 20, 0.8) !important;
-    border: 1px solid rgba(139, 92, 246, 0.3) !important;
-    border-radius: 10px;
-    color: #fff !important;
-}
-
-div[data-baseweb="select"] > div:hover,
-div[data-baseweb="input"] > div:hover {
-    border-color: rgba(139, 92, 246, 0.6) !important;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-}
-
-.glass-card {
-    background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(30, 30, 30, 0.8) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.25);
-    border-radius: 20px;
-    padding: 32px 36px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    margin-bottom: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-color: rgba(139, 92, 246, 0.5);
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 40%, #10b981 80%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.04em;
-    margin-bottom: 8px;
-    line-height: 1.1;
-    text-shadow: 0 0 80px rgba(139, 92, 246, 0.5);
-    animation: glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.4)); }
-    to { filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.8)); }
-}
-
-.hero-sub {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 400;
-    margin-bottom: 32px;
+    font-family: 'Playfair Display', serif;
+    color: #c5a36c;
     letter-spacing: 0.02em;
 }
 
+section[data-testid="stSidebar"] label {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Input Fields */
+div[data-baseweb="select"] > div,
+div[data-baseweb="input"] > div {
+    background-color: #1c2128 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px;
+    color: #fff !important;
+}
+
+/* Hero Section */
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    color: #8a8f98;
+    font-weight: 400;
+    margin-bottom: 40px;
+}
+
+/* Cards */
+.glass-card {
+    background: rgba(30, 35, 45, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(197, 163, 108, 0.3);
+}
+
+/* Metrics */
 .metric-card {
-    background: linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(25, 25, 25, 0.9) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 18px;
-    padding: 28px 26px;
+    background: #1a1e26;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
     text-align: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.metric-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.metric-card:hover::before {
-    left: 100%;
-}
-
-.metric-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    border-color: rgba(139, 92, 246, 0.6);
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3);
 }
 
 .metric-value {
-    font-size: 1.85rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #a78bfa, #60a5fa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 8px 0 4px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #c5a36c;
+    margin-top: 4px;
 }
 
 .metric-label {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    color: #64748b;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     font-weight: 600;
 }
 
+/* Result Section */
 .price-result {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(59, 130, 246, 0.2) 100%);
-    border: 2px solid rgba(139, 92, 246, 0.5);
-    border-radius: 24px;
-    padding: 48px 44px;
+    background: linear-gradient(180deg, #1e232d 0%, #16191f 100%);
+    border: 1px solid #c5a36c44;
+    border-radius: 16px;
+    padding: 40px;
     text-align: center;
-    animation: fadeSlideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.price-result::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
-    animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    margin: 32px 0;
 }
 
 .price-amount {
-    font-size: 3.8rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #c084fc, #60a5fa, #34d399);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 12px 0 6px 0;
-    position: relative;
-    z-index: 1;
-    text-shadow: 0 0 40px rgba(192, 132, 252, 0.5);
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: #ffffff;
+    margin: 8px 0;
 }
 
 .price-label {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.65);
-    font-weight: 500;
-    position: relative;
-    z-index: 1;
-}
-
-@keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.section-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffffff, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 40px 0 16px 0;
-    letter-spacing: -0.02em;
-}
-
-.gradient-divider {
-    height: 3px;
-    background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 50%, transparent 100%);
-    border: none;
-    margin: 20px 0 32px 0;
-    border-radius: 3px;
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-.stButton > button {
-    background: linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6) !important;
-    color: #fff !important;
-    border: none !important;
-    border-radius: 16px !important;
-    padding: 18px 36px !important;
-    font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    letter-spacing: 0.03em;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    width: 100%;
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+    font-size: 1rem;
+    color: #c5a36c;
     text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-}
-
-.stButton > button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.stButton > button:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.stButton > button:hover {
-    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.6) !important;
-    transform: translateY(-3px) scale(1.02);
-}
-
-.stExpander {
-    background: rgba(20, 20, 20, 0.6) !important;
-    border: 1px solid rgba(139, 92, 246, 0.2) !important;
-    border-radius: 16px !important;
-}
-
-.stTabs [data-baseweb="tab-list"] {
-    gap: 8px;
-    background: rgba(20, 20, 20, 0.5);
-    padding: 8px;
-    border-radius: 12px;
-}
-
-.stTabs [data-baseweb="tab"] {
-    background: transparent;
-    color: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
-    padding: 12px 24px;
+    letter-spacing: 0.2em;
     font-weight: 600;
 }
 
-.stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #8b5cf6, #6366f1) !important;
-    color: #fff !important;
+/* Section Titles */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-top: 48px;
+    margin-bottom: 24px;
 }
 
-.stDataFrame {
-    background: rgba(15, 15, 15, 0.8) !important;
-    border: 1px solid rgba(139, 92, 246, 0.2) !important;
-    border-radius: 12px;
+.gradient-divider {
+    height: 1px;
+    background: linear-gradient(90deg, #c5a36c 0%, transparent 100%);
+    margin-bottom: 32px;
+    opacity: 0.4;
+}
+
+/* Button */
+.stButton > button {
+    background-color: #c5a36c !important;
+    color: #0f1115 !important;
+    border-radius: 6px !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    border: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.stButton > button:hover {
+    background-color: #d4af37 !important;
+    transform: scale(1.01);
+}
+
+/* Chat/Advisor */
+.chat-bubble {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 2px solid #c5a36c;
 }
 
 .footer-text {
     text-align: center;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.3);
-    margin-top: 60px;
-    padding-bottom: 28px;
-    font-weight: 300;
+    font-size: 0.8rem;
+    color: #4b5563;
+    margin-top: 80px;
+    padding-bottom: 40px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -344,7 +218,7 @@ city_locality_map = df.groupby("City")["Locality"].apply(lambda x: sorted(x.uniq
 
 ALL_AMENITIES = ["Playground", "Gym", "Garden", "Pool", "Clubhouse"]
 with st.sidebar:
-    st.markdown("## Property Details")
+    st.markdown("## Selection")
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
     st.markdown("### Location")
@@ -440,8 +314,8 @@ def build_features():
                     break
 
     return pd.DataFrame([row], columns=feature_names)
-st.markdown('<div class="hero-title">India Housing Price Predictor</div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-sub">Powered by Ridge Regression with polynomial features trained on 250,000+ real listings</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-title">Estate Insight</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-sub">Sophisticated property valuation using advanced regression trained on 250,000+ premium listings</div>', unsafe_allow_html=True)
 st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
@@ -523,14 +397,14 @@ if "prediction" in st.session_state:
     }
     st.dataframe(pd.DataFrame(summary_data), use_container_width=True, hide_index=True)
 
-    st.markdown('<div class="section-title">AI Property Advisor</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Estate Concierge</div>', unsafe_allow_html=True)
     st.markdown('<div class="gradient-divider"></div>', unsafe_allow_html=True)
 
     st.markdown("""
     <div class="glass-card">
-        <p style="color: rgba(255,255,255,0.7); margin:0; font-size: 0.95rem;">
-        Ask our AI advisor anything about this property — investment potential,
-        price justification, neighbourhood insights, or buying tips.
+        <p style="color: rgba(255,255,255,0.6); margin:0; font-size: 0.95rem;">
+        Consult our expert advisor regarding investment potential, 
+        market valuation, or neighborhood dynamics for this property.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -539,32 +413,33 @@ if "prediction" in st.session_state:
         st.session_state.chat_history = []
 
     for msg in st.session_state.chat_history:
-        role_color = "#a78bfa" if msg["role"] == "user" else "#34d399"
-        role_label = "You" if msg["role"] == "user" else "AI Advisor"
+        is_user = msg["role"] == "user"
+        role_label = "You" if is_user else "Concierge"
+        text_color = "#ffffff" if is_user else "#c5a36c"
+        
         st.markdown(f"""
-        <div style="background: rgba(255,255,255,0.04); border-left: 3px solid {role_color};
-        padding: 12px 16px; border-radius: 8px; margin: 8px 0;">
-            <span style="color: {role_color}; font-weight: 600; font-size: 0.85rem;">{role_label}</span>
-            <p style="color: rgba(255,255,255,0.85); margin: 6px 0 0 0; font-size: 0.95rem;">{msg["content"]}</p>
+        <div class="chat-bubble">
+            <span style="color: {text_color}; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">{role_label}</span>
+            <p style="color: rgba(255,255,255,0.85); margin: 6px 0 0 0; font-size: 1rem; line-height: 1.5;">{msg["content"]}</p>
         </div>
         """, unsafe_allow_html=True)
 
     user_question = st.text_input(
-        "Ask about this property...",
-        placeholder="e.g. Is this a good investment? Why is it priced this way?",
+        "Consultation query",
+        placeholder="e.g. Is this a sound long-term investment?",
         key="ai_input"
     )
 
-    if st.button("Ask AI Advisor", key="ask_ai"):
+    if st.button("Consult Concierge", key="ask_ai"):
         if not GROQ_API_KEY:
             st.warning("Please set your GROQ_API_KEY in the .env file.")
         elif not user_question.strip():
             st.warning("Please type a question first.")
         else:
-            with st.spinner("AI is thinking..."):
+            with st.spinner("Consulting..."):
                 try:
                     client = Groq(api_key=GROQ_API_KEY)
-                    system_prompt = f"""You are an expert Indian real estate advisor.
+                    system_prompt = f"""You are a highly sophisticated Indian real estate consultant.
                     A user has a property with these details and predicted price:
                     {st.session_state.property_context}
                     Answer their question in 3-4 sentences. Be specific, practical, and helpful.
@@ -627,6 +502,6 @@ with st.expander("Explore the training dataset", expanded=False):
 
 st.markdown("""
 <div class="footer-text">
-    Built by Team Charlie with ❤️ India Housing Price Predictor
+    © 2026 Estate Insight • India Housing Price Predictor
 </div>
 """, unsafe_allow_html=True)
